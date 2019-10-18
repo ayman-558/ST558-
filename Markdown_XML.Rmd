@@ -23,3 +23,10 @@ XML is the Extensible which means it is not a fixed format(like HTML which is a 
 
 # XML Package
 The XML package, it contains all the function I need has many resources online. 
+
+```{r}
+
+
+```
+
+
