@@ -1,0 +1,25 @@
+---
+title: "XML"
+author: "Ayman Ighwair"
+date: "10/18/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# What XML is?
+
+Extensible Markup Language (XML), is a markup language used to weave plain text and code to produce a user friendly output. Its been developed in the 90s for making documents on the web. What distinguishes it from other markup languages is its flexibility and adaptability.  
+
+# Where is it used? 
+
+XML is similar to HTML but more flexible. HTML is solely used to display documents on a web browser, and not much else . XML has more application to it, for example, displaying data on a mobile device or tablet. 
+
+# Why is it a good way to store data? 
+
+XML is the Extensible which means it is not a fixed format(like HTML which is a single, predefined markup language).  XML is a metalanguage — a language for describing other languages — which lets you design your own markup languages for limitless different types of documents[1]. 
+
+# XML Package
+The XML package, it contains all the function I need has many resources online. 
