@@ -1,0 +1,48 @@
+---
+title: "JSON"
+author: "Ayman Ighwair"
+date: "10/14/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(haven)
+library(readxl)
+library(rjson)
+library(jsonlite)
+
+```
+
+# Introduction
+
+## What is JSON ?
+JSON is short for JavaScript Object Notation, and is a popular format for storing and exchanging data on the web. It's known for its simplicity for humans to read and write and for machines to parse and generate
+
+## What makes up the JSON language?
+Every JSON  contains a key and a value. . Together they make a key/value pair.  
+*   (list) Key: A key is always a string enclosed in quotation marks.
+*    (list)Value: A value can be a string, number, boolean expression, array, or object.
+
+## Importance of JSON
+JSON is ideal for storing temporary data
+JSON must be stored in text fomat. An advantage of this is that it can be used as a data format for any programming language, providing a high level of interoperability. This also means data stored in JSON files are easily sent between servers.  
+
+#Reading in JSON files
+
+## I used the jsonlite package as it takes care of different json delimeters and simplifies the process of reading in the data 
+
+
+
+
+
+```{r}
+o<-read_
+
+```
+
+
