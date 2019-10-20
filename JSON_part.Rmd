@@ -2,8 +2,18 @@
 title: "JSON"
 author: "Ayman Ighwair"
 date: "10/14/2019"
-output: html_document
+output:
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: yes
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -25,24 +35,96 @@ JSON is short for JavaScript Object Notation, and is a popular format for storin
 
 ## What makes up the JSON language?
 Every JSON  contains a key and a value. . Together they make a key/value pair.  
-*   (list) Key: A key is always a string enclosed in quotation marks.
-*    (list)Value: A value can be a string, number, boolean expression, array, or object.
+* Key: A key is always a string enclosed in quotation marks.
+* Value: A value can be a string, number, boolean expression, array, or object.
 
 ## Importance of JSON
 JSON is ideal for storing temporary data
 JSON must be stored in text fomat. An advantage of this is that it can be used as a data format for any programming language, providing a high level of interoperability. This also means data stored in JSON files are easily sent between servers.  
 
-#Reading in JSON files
+##Reading in JSON files
 
-## I used the jsonlite package as it takes care of different json delimeters and simplifies the process of reading in the data 
-
-
+I used the jsonlite package as it takes care of different json delimeters and simplifies the process of reading in the data 
 
 
 
-```{r}
-o<-read_
+# About the Data 
+
+## Intro 
+
+Gathered from the New York Times API for Hardcover Fiction best sellers from June 7, 2008 to July 22, 2018. This dataset provides a summary of several best-selling fiction books. 
+
+## Variables 
+* Author 
+* title 
+* publisher
+* rank 
+* price
+
+```{r,warning=FALSE, message=FALSE, include=FALSE}
+#Read in the data 
+yelp <- stream_in(file("C:/Users/Ighwair/Desktop/new-york-times-hardcover-fiction-best-sellers/nyt22.json"))
+yelp_flat <- flatten(yelp)
+yelp_tbl <- as_data_frame(yelp_flat)
+
+
+```
+
+Below is the average price of NYT best selling fiction books :
+
+```{r,warning=FALSE,message=FALSE}
+mn <- as.numeric(yelp_tbl$`price.$numberDouble`)
+
+Average <- function(vector) {
+  mean <- mean(vector, na.rm=TRUE)
+  stdev <- sd(vector, na.rm=TRUE)
+  return(list( mean = mean, sd = stdev))
+}
+
+Average(mn)
+
+```
+
+Also, a newly created column calculting the difference in ranks that happened in a week:
+```{r,warning=FALSE,message=FALSE}
+book<-yelp_tbl %>% select(author,title,publisher,`price.$numberDouble`,`rank.$numberInt`,`rank_last_week.$numberInt`) %>% arrange(`rank.$numberInt`)
+
+gy<-book %>% mutate(week_rank_diff = as.numeric(`rank_last_week.$numberInt`)- as.numeric(`rank.$numberInt`)) %>% select(author,title,week_rank_diff)
+gy
 
 ```
 
 
+The Top 10 publishers : 
+
+```{r,warning=FALSE,message=FALSE}
+
+top_10 <-book %>% count(publisher) %>%  arrange(desc(n)) %>% top_n(10)
+kable(top_10)
+
+```
+
+
+Below is a scatter plot to find if theres any correlation between Price and book rank : 
+
+```{r,warning=FALSE,message=FALSE}
+
+price <- as.numeric(yelp_tbl$`price.$numberDouble`)
+a<-as.numeric(yelp_tbl$`rank_last_week.$numberInt`)
+b<- as.numeric(yelp_tbl$`rank.$numberInt`)
+sctr<- data.frame(price,b)
+sctr<-na.omit(sctr) 
+g<-ggplot(sctr,aes(x= price ,y=b))
+g + geom_point() + geom_smooth(colour="red") +xlab("Price") 
+
+```
+
+
+Count of the different ranks
+```{r,warning=FALSE,message=FALSE}
+book<-yelp_tbl %>% select(author,title,publisher,`price.$numberDouble`,`rank.$numberInt`,`rank_last_week.$numberInt`) %>% arrange(`rank.$numberInt`)
+
+g<-ggplot(book,aes(x= `rank.$numberInt`))
+g + geom_bar() + xlab("Ranks")
+
+```
